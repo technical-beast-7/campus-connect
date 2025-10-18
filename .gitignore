@@ -232,6 +232,7 @@ bundle-analyzer-report.html
 # IDE and Editor files
 .vscode/
 .idea/
+.kiro/
 *.swp
 *.swo
 *~
