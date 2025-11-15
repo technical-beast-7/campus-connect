@@ -461,39 +461,12 @@
   position: relative;
 }
 
-.status-indicator.status-pending::before {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 6px;
-  height: 6px;
-  background: #f59e0b;
-  border-radius: 50%;
-  animation: pulse-gentle 2s infinite;
-}
-
-.status-indicator.status-in-progress::before {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 6px;
-  height: 6px;
-  background: #3b82f6;
-  border-radius: 50%;
-  animation: pulse-gentle 1.5s infinite;
-}
-
+.status-indicator.status-pending::before,
+.status-indicator.status-in-progress::before,
 .status-indicator.status-resolved::before {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 6px;
-  height: 6px;
-  background: #10b981;
-  border-radius: 50%;
+  /* Decorative dot removed by request. */
+  content: none !important;
+  display: none !important;
 }
 
 /* Card hover effects */

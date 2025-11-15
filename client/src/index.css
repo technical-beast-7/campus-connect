@@ -1,15 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 
-/* Import enhanced styling systems */
+/* Import enhanced styling systems (must come before other at-rules such as @tailwind) */
 @import './styles/responsive.css';
 @import './styles/accessibility.css';
 @import './styles/animations.css';
 @import './styles/typography.css';
 @import './styles/interactive.css';
 @import './styles/mobile-enhancements.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 @layer base {
   body {
@@ -80,6 +81,17 @@
   
   .badge-resolved {
     @apply bg-gradient-to-r from-green-100 to-green-200 text-green-800 px-3 py-1.5 rounded-full text-sm font-semibold border border-green-300 shadow-sm;
+  }
+
+  /* Remove decorative pseudo-element (small dot) for specific badges */
+  .badge-pending::before,
+  .badge-pending::after,
+  .badge-in-progress::before,
+  .badge-in-progress::after,
+  .badge-resolved::before,
+  .badge-resolved::after {
+    display: none !important;
+    content: none !important;
   }
   
   /* Navigation enhancements */
