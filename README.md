@@ -122,8 +122,8 @@ Before you begin, ensure you have the following installed:
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd CampusConnect
+   git clone https://github.com/technical-beast-7/campus-connect.git
+   cd campus-connect
    ```
 
 2. **Install client dependencies**
