@@ -24,7 +24,7 @@ interface NavigationItem {
   name: string;
   href: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
-  roles: Array<'student' | 'faculty' | 'authority'>;
+  roles: Array<'user' | 'authority'>;
 }
 
 const navigationItems: NavigationItem[] = [
@@ -32,19 +32,19 @@ const navigationItems: NavigationItem[] = [
     name: 'Dashboard',
     href: '/dashboard',
     icon: HomeIcon,
-    roles: ['student', 'faculty', 'authority'],
+    roles: ['user', 'authority'],
   },
   {
     name: 'Report Issue',
     href: '/report-issue',
     icon: PlusCircleIcon,
-    roles: ['student', 'faculty'],
+    roles: ['user'],
   },
   {
     name: 'My Issues',
     href: '/my-issues',
     icon: DocumentTextIcon,
-    roles: ['student', 'faculty'],
+    roles: ['user'],
   },
   {
     name: 'All Issues',
@@ -62,7 +62,7 @@ const navigationItems: NavigationItem[] = [
     name: 'Profile',
     href: '/profile',
     icon: UserIcon,
-    roles: ['student', 'faculty', 'authority'],
+    roles: ['user', 'authority'],
   },
 ];
 
@@ -75,9 +75,12 @@ const Sidebar: React.FC<SidebarProps> = ({
   const location = useLocation();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
 
+  // Normalize role for backward compatibility (student/faculty -> user)
+  const normalizedRole = (user.role === 'student' || user.role === 'faculty') ? 'user' : user.role;
+  
   // Filter navigation items based on user role
   const filteredNavigation = navigationItems.filter(item => 
-    item.roles.includes(user.role)
+    item.roles.includes(normalizedRole as 'user' | 'authority')
   );
 
   const isActive = (href: string) => {
@@ -133,7 +136,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                     {user.name}
                   </p>
                   <p className="text-xs text-gray-500 capitalize">
-                    {user.role} • {user.department}
+                    {normalizedRole} • {user.role === 'authority' && user.categories && user.categories.length > 0 
+                      ? user.categories.join(', ') 
+                      : user.department}
                   </p>
                 </div>
               </div>
@@ -227,7 +232,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                   {user.name}
                 </p>
                 <p className="text-xs text-gray-500 capitalize">
-                  {user.role} • {user.department}
+                  {normalizedRole} • {user.role === 'authority' && user.categories && user.categories.length > 0 
+                    ? user.categories.join(', ') 
+                    : user.department}
                 </p>
               </div>
             </div>

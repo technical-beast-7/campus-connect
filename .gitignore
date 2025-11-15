@@ -79,3 +79,9 @@ coverage/
 *.old
 *.zip
 *.tar.gz
+
+# Temporary documentation (generated during development)
+MIGRATION_GUIDE.md
+PROFILE_UPDATE_SUMMARY.md
+*_SUMMARY.md
+*_GUIDE.md

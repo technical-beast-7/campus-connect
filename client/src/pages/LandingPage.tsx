@@ -35,7 +35,7 @@ const LandingPage: React.FC = () => {
     {
       icon: UserGroupIcon,
       title: 'Role-based Access',
-      description: 'Different interfaces for students, faculty, and authorities with appropriate permissions.'
+      description: 'Different interfaces for users and authorities with appropriate permissions.'
     },
     {
       icon: ShieldCheckIcon,
@@ -90,7 +90,7 @@ const LandingPage: React.FC = () => {
             </h1>
             <p className="text-xl sm:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
               Campus Connect is your comprehensive platform for reporting, tracking, and resolving campus issues. 
-              From maintenance requests to facility concerns, we bring students, faculty, and authorities together 
+              From maintenance requests to facility concerns, we bring users and authorities together 
               for a better campus experience.
             </p>
             
@@ -184,7 +184,7 @@ const LandingPage: React.FC = () => {
                 Create Account
               </h3>
               <p className="text-gray-600">
-                Register with your role (student, faculty, or authority) and department information.
+                Register with your role (user or authority) and department information.
               </p>
             </div>
 
@@ -222,7 +222,7 @@ const LandingPage: React.FC = () => {
             Ready to Improve Your Campus?
           </h2>
           <p className="text-xl text-primary-100 mb-8 max-w-2xl mx-auto">
-            Join thousands of students, faculty, and staff who are already using Campus Connect 
+            Join thousands of users who are already using Campus Connect 
             to make their campus a better place.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">

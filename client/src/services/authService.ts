@@ -4,7 +4,7 @@ export interface RegisterData {
   name: string;
   email: string;
   password: string;
-  role: 'student' | 'faculty' | 'authority';
+  role: 'user' | 'authority';
   department: string;
 }
 
@@ -17,7 +17,7 @@ export interface User {
   _id: string;
   name: string;
   email: string;
-  role: 'student' | 'faculty' | 'authority';
+  role: 'user' | 'authority';
   department: string;
   avatar?: string;
   createdAt: string;

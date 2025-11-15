@@ -5,7 +5,7 @@ import { ROUTES } from '@utils/constants';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
-  allowedRoles?: ('student' | 'faculty' | 'authority')[];
+  allowedRoles?: ('user' | 'authority')[];
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 

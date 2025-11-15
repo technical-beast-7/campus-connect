@@ -17,13 +17,13 @@ interface RegisterFormData extends RegisterData {
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
   const { state, register, clearError } = useAuth();
-  const [activeTab, setActiveTab] = useState<'student' | 'authority'>('student');
+  const [activeTab, setActiveTab] = useState<'user' | 'authority'>('user');
   const [formData, setFormData] = useState<RegisterFormData>({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'student',
+    role: 'user',
     department: '',
     category: ''
   });
@@ -35,7 +35,7 @@ const RegisterPage: React.FC = () => {
   const [isOTPLoading, setIsOTPLoading] = useState(false);
   const [showPasswordRequirements, setShowPasswordRequirements] = useState(false);
 
-  // Department options (for students/faculty only)
+  // Department options (for users only)
   const departments = [
     'Computer Science',
     'Information Technology',
@@ -116,11 +116,11 @@ const RegisterPage: React.FC = () => {
   useEffect(() => {
     setFormData(prev => ({
       ...prev,
-      role: activeTab === 'student' ? 'student' : 'authority'
+      role: activeTab === 'user' ? 'user' : 'authority'
     }));
   }, [activeTab]);
 
-  const handleTabChange = (tab: 'student' | 'authority') => {
+  const handleTabChange = (tab: 'user' | 'authority') => {
     setActiveTab(tab);
     // Reset department and category when switching tabs
     setFormData(prev => ({
@@ -211,7 +211,7 @@ const RegisterPage: React.FC = () => {
         return;
       }
       
-      // For students, send registerData as is
+      // For users, send registerData as is
       console.log('Sending request to /auth/send-otp');
       
       // Send OTP to email
@@ -329,14 +329,14 @@ const RegisterPage: React.FC = () => {
             <div className="flex rounded-lg bg-gray-100 p-1">
               <button
                 type="button"
-                onClick={() => handleTabChange('student')}
+                onClick={() => handleTabChange('user')}
                 className={`flex-1 py-2 px-4 text-sm font-medium rounded-md transition-colors ${
-                  activeTab === 'student'
+                  activeTab === 'user'
                     ? 'bg-white text-primary-600 shadow-sm'
                     : 'text-gray-500 hover:text-gray-700'
                 }`}
               >
-                Student/Faculty
+                User
               </button>
               <button
                 type="button"
@@ -415,8 +415,8 @@ const RegisterPage: React.FC = () => {
               )}
             </div>
 
-            {/* Department Field (for students/faculty) */}
-            {activeTab === 'student' && (
+            {/* Department Field (for users) */}
+            {activeTab === 'user' && (
               <div>
                 <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-1">
                   Department
@@ -612,7 +612,7 @@ const RegisterPage: React.FC = () => {
         <div className="card bg-blue-50 border-blue-200">
           <h3 className="text-sm font-medium text-blue-900 mb-2">Account Types</h3>
           <div className="text-xs text-blue-800 space-y-1">
-            <p><strong>Student/Faculty:</strong> Report issues and track their status</p>
+            <p><strong>User:</strong> Report issues and track their status</p>
             <p><strong>Authority:</strong> Manage and resolve reported issues</p>
           </div>
         </div>
@@ -634,7 +634,7 @@ const RegisterPage: React.FC = () => {
         isOpen={showSuccessModal}
         title="Registration Successful! 🎉"
         message="Your account has been created and verified successfully."
-        role={formData.role as 'student' | 'faculty' | 'authority'}
+        role={formData.role as 'user' | 'authority'}
         onClose={handleCloseSuccessModal}
         redirectTo="/dashboard"
         autoRedirectSeconds={3}

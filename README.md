@@ -1,13 +1,20 @@
 # Campus Connect
 
-A comprehensive web-based platform for reporting, tracking, and managing campus-related issues. Campus Connect enables students, faculty, and authorities to collaborate effectively in maintaining and improving campus facilities and services.
+A comprehensive web-based platform for reporting, tracking, and managing campus-related issues. Campus Connect enables users and authorities to collaborate effectively in maintaining and improving campus facilities and services.
 
 ## 📋 Overview
 
 Campus Connect provides a centralized system where:
-- **Students** can report issues they encounter on campus
-- **Faculty** can monitor and report departmental concerns
+- **Users** can report issues they encounter on campus
 - **Authorities** can track, manage, and resolve reported issues efficiently
+
+### Key Highlights
+- 🔐 **Secure Email Verification** - OTP-based registration for verified users
+- 🎯 **Category-Based Access Control** - Authorities only see relevant issues
+- 📊 **Real-time Analytics** - Department-wise issue tracking and statistics
+- 💬 **Interactive Communication** - Comment system for issue discussions
+- 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
+- 🖼️ **Image Support** - Visual documentation of issues with photo uploads
 
 ## 🏗️ Project Structure
 
@@ -45,33 +52,38 @@ CampusConnect/
 ## ✨ Features
 
 ### User Management
-- Role-based authentication (Student, Faculty, Authority)
-- Secure JWT-based authentication
-- User profile management
-- Department-based organization
+- **Email Verification with OTP** - Secure registration with one-time password verification
+- **Role-based Authentication** - Two user roles: User and Authority
+- **JWT-based Security** - Secure token-based authentication
+- **User Profile Management** - Update personal information and preferences
+- **Department & Category Organization** - Department-based for users, category-based for authorities
 
 ### Issue Reporting
-- Create detailed issue reports with descriptions
-- Upload images to document issues
-- Categorize issues (Maintenance, Canteen, Classroom, Hostel, Transport, Other)
-- Track issue status (Pending, In Progress, Resolved)
+- **Detailed Issue Reports** - Create comprehensive issue descriptions
+- **Image Upload** - Attach photos to document issues visually
+- **Issue Categories** - Maintenance, Canteen, Classroom, Hostel, Transport, Other
+- **Status Tracking** - Monitor issue progress (Pending, In Progress, Resolved)
+- **Department Tagging** - Automatic department association for better organization
 
 ### Issue Management
-- View all reported issues
-- Filter issues by category, status, and department
-- Update issue status (Authority role)
-- Delete issues (Admin role)
+- **Comprehensive Issue View** - View all reported issues with filtering
+- **Advanced Filtering** - Filter by category, status, department, and search
+- **Status Updates** - Authorities can update issue status
+- **Category-based Access Control** - Authorities only see issues in their assigned categories
+- **Issue Deletion** - Authorities can remove inappropriate or duplicate issues
 
 ### Communication
-- Comment system for issue discussions
-- Real-time updates on issue progress
-- Notifications for status changes
+- **Comment System** - Add comments and responses to issues
+- **Authority Responses** - Authorities can post official responses
+- **Comment History** - View complete conversation thread for each issue
+- **User Identification** - Comments show author name and role
 
 ### Analytics & Reporting
-- Dashboard with issue statistics
-- Category-wise issue breakdown
-- Status distribution charts
-- Department-wise analytics
+- **User Dashboard** - Personalized dashboard for users
+- **Authority Dashboard** - Comprehensive overview for authorities
+- **Issue Statistics** - Total, pending, in-progress, and resolved counts
+- **Department Analytics** - Department-wise issue distribution for authorities
+- **Recent Activity Feed** - Quick view of latest issues and updates
 
 ## 🛠️ Tech Stack
 
@@ -89,8 +101,10 @@ CampusConnect/
 - **Framework:** Express.js
 - **Database:** MongoDB with Mongoose ODM
 - **Authentication:** JWT (JSON Web Tokens)
+- **Email Service:** Nodemailer (for OTP verification)
 - **Password Hashing:** bcryptjs
 - **File Upload:** Multer
+- **Validation:** express-validator
 - **CORS:** cors middleware
 - **Environment Variables:** dotenv
 
@@ -153,6 +167,13 @@ Before you begin, ensure you have the following installed:
    JWT_SECRET=your_secure_jwt_secret_key_here
    JWT_EXPIRE=30d
    NODE_ENV=development
+   
+   # Email Configuration (for OTP verification)
+   EMAIL_HOST=smtp.gmail.com
+   EMAIL_PORT=587
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASSWORD=your-app-specific-password
+   EMAIL_FROM=Campus Connect <noreply@campusconnect.com>
    ```
 
 ### Database Setup
@@ -215,71 +236,71 @@ Before you begin, ensure you have the following installed:
 
 ### Authentication Endpoints
 
-- `POST /api/auth/register` - Register a new user
-- `POST /api/auth/login` - Login user
+- `POST /api/auth/send-otp` - Send OTP for email verification (Public)
+- `POST /api/auth/verify-otp` - Verify OTP and complete registration (Public)
+- `POST /api/auth/register` - Register a new user (Legacy - without OTP) (Public)
+- `POST /api/auth/login` - Login user (Public)
 - `GET /api/auth/me` - Get current user profile (Protected)
 - `PUT /api/auth/profile` - Update user profile (Protected)
 
 ### Issue Endpoints
 
-- `POST /api/issues` - Create a new issue (Protected)
-- `GET /api/issues` - Get all issues with filters (Protected)
+- `POST /api/issues` - Create a new issue with optional image upload (Protected)
+- `GET /api/issues` - Get all issues with optional filters (status, category, department) (Protected)
 - `GET /api/issues/my-issues` - Get current user's issues (Protected)
-- `GET /api/issues/:id` - Get single issue details (Protected)
+- `GET /api/issues/:id` - Get single issue by ID (Protected)
 - `PUT /api/issues/:id/status` - Update issue status (Authority only)
-- `DELETE /api/issues/:id` - Delete issue (Admin only)
-
-### Comment Endpoints
-
-- `POST /api/comments/issues/:issueId/comments` - Add comment to issue (Protected)
-- `GET /api/comments/issues/:issueId/comments` - Get all comments for issue (Protected)
-- `DELETE /api/comments/:id` - Delete comment (Protected)
-
-### Admin Endpoints
-
-- `GET /api/admin/analytics` - Get issue analytics (Authority/Admin only)
-- `GET /api/admin/users` - Get all users (Admin only)
-- `DELETE /api/admin/users/:id` - Delete user (Admin only)
+- `DELETE /api/issues/:id` - Delete issue (Authority only)
+- `POST /api/issues/:id/comments` - Add comment to issue (Protected)
 
 ## 👥 User Roles
 
-### Student
+### User
 - Report new issues
 - View own issues
 - Comment on issues
 - Update profile
-
-### Faculty
-- All student permissions
 - View department-specific issues
-- Priority issue reporting
 
 ### Authority
-- All faculty permissions
-- View all issues across departments
-- Update issue status
-- Access analytics dashboard
-- Manage issue resolution
+- View issues in assigned categories only (category-based access control)
+- Update issue status (Pending → In Progress → Resolved)
+- Post official responses to issues
+- Access analytics dashboard with department-wise statistics
+- Delete inappropriate or duplicate issues
+- Manage issue resolution within their domain
 
-### Admin
-- All authority permissions
-- User management
-- Delete issues and users
-- System-wide analytics
+## 🔐 Email Verification Setup
 
-## 🧪 Testing
+Campus Connect uses email verification with OTP for secure user registration.
 
-### Client Testing
-```bash
-cd client
-npm run test
-```
+### Option 1: Using Gmail (Recommended for Development)
 
-### Server Testing
-```bash
-cd server
-npm run test
-```
+1. Enable 2-Factor Authentication on your Gmail account
+2. Generate an App Password:
+   - Go to Google Account Settings → Security
+   - Enable 2-Step Verification
+   - Go to App Passwords
+   - Generate a new app password for "Mail"
+3. Add to your `server/.env`:
+   ```env
+   EMAIL_HOST=smtp.gmail.com
+   EMAIL_PORT=587
+   EMAIL_USER=your-email@gmail.com
+   EMAIL_PASSWORD=your-16-digit-app-password
+   ```
+
+### Option 2: Console Mode (For Testing Without Email)
+
+If you want to test without setting up email:
+1. In `server/controllers/authController.js`, change the import:
+   ```javascript
+   // From:
+   import { sendOTPEmail } from '../utils/emailService.js';
+   // To:
+   import { sendOTPEmail } from '../utils/emailService-console.js';
+   ```
+2. OTP will be logged to the console instead of being emailed
 
 ## 📦 Building for Production
 
@@ -342,6 +363,18 @@ npm start
 - Ensure `server/uploads/issue-images/` directory exists
 - Check file size limits in multer configuration
 - Verify file permissions
+
+**OTP Email Not Received**
+- Check email configuration in server `.env`
+- Verify Gmail App Password is correct (16 digits, no spaces)
+- Check spam/junk folder
+- Use console mode for testing (see Email Verification Setup)
+- Check server logs for email sending errors
+
+**Authority Can't See Issues**
+- Ensure authority user has categories assigned during registration
+- Categories must match issue categories exactly
+- Check MongoDB to verify user's `categories` field is populated
 
 ## 🤝 Contributing
 

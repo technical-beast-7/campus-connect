@@ -44,7 +44,7 @@ export const protect = async (req, res, next) => {
 /**
  * Authorize middleware - Role-based access control
  * Restricts access to specific user roles
- * @param {...string} roles - Allowed roles (e.g., 'student', 'faculty', 'authority')
+ * @param {...string} roles - Allowed roles (e.g., 'user', 'authority')
  */
 export const authorize = (...roles) => {
   return (req, res, next) => {

@@ -12,7 +12,7 @@ const Dashboard: React.FC = () => {
     if (state.user?.role === 'authority') {
       return <DashboardAuthority />;
     } else {
-      // Both students and faculty use the same dashboard
+      // All users use the same dashboard
       return <DashboardUser />;
     }
   };

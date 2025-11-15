@@ -51,7 +51,7 @@ function App() {
                 <Route
                   path={ROUTES.REPORT_ISSUE}
                   element={
-                    <ProtectedRoute allowedRoles={['student', 'faculty']}>
+                    <ProtectedRoute allowedRoles={['user']}>
                       <AppLayout>
                         <ReportIssue />
                       </AppLayout>
@@ -61,7 +61,7 @@ function App() {
                 <Route
                   path={ROUTES.MY_ISSUES}
                   element={
-                    <ProtectedRoute allowedRoles={['student', 'faculty']}>
+                    <ProtectedRoute allowedRoles={['user']}>
                       <AppLayout>
                         <MyIssues />
                       </AppLayout>

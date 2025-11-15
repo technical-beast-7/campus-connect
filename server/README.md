@@ -134,10 +134,9 @@ server/
 
 ## User Roles
 
-The system supports three user roles:
+The system supports two user roles:
 
-- **Student** - Can report issues and view their own issues
-- **Faculty** - Can report issues and view their own issues
+- **User** - Can report issues and view their own issues
 - **Authority** - Can view all issues, update status, and access analytics
 
 ## File Uploads

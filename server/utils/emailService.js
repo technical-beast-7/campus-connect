@@ -162,8 +162,7 @@ export const sendWelcomeEmail = async (email, name, role) => {
     const transporter = await createTransporter();
 
     const roleMessages = {
-      student: 'You can now report issues and track their status.',
-      faculty: 'You can now report issues and track their status.',
+      user: 'You can now report issues and track their status.',
       authority: 'You can now manage and resolve reported issues.'
     };
 

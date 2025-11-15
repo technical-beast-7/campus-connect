@@ -3,7 +3,7 @@ import { useAuth } from '@context/AuthContext';
 import type { ProfileData } from '@/types';
 import useFormValidation from '@hooks/useFormValidation';
 import Loader from '@components/Loader';
-import { UserIcon, EnvelopeIcon, BuildingOfficeIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
+import { UserIcon, EnvelopeIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
 const Profile: React.FC = () => {
   const { state, updateProfile, clearError } = useAuth();
@@ -12,7 +12,6 @@ const Profile: React.FC = () => {
   const [formData, setFormData] = useState<ProfileData>({
     name: '',
     email: '',
-    department: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
@@ -28,11 +27,6 @@ const Profile: React.FC = () => {
       required: true,
       pattern: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     },
-    department: {
-      required: true,
-      minLength: 2,
-      maxLength: 100,
-    },
   };
 
   const { errors, validateForm, clearAllErrors } = useFormValidation(validationRules);
@@ -43,7 +37,6 @@ const Profile: React.FC = () => {
       setFormData({
         name: user.name,
         email: user.email,
-        department: user.department,
       });
     }
   }, [user]);
@@ -109,7 +102,6 @@ const Profile: React.FC = () => {
       setFormData({
         name: user.name,
         email: user.email,
-        department: user.department,
       });
       clearAllErrors();
       clearError();
@@ -217,31 +209,18 @@ const Profile: React.FC = () => {
               )}
             </div>
 
-            {/* Department Field (for students/faculty only) */}
+            {/* Department Display (for users only - Read-only) */}
             {user.role !== 'authority' && (
               <div>
-                <label htmlFor="department" className="block text-sm font-medium text-gray-700 mb-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Department
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <BuildingOfficeIcon className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    type="text"
-                    id="department"
-                    name="department"
-                    value={formData.department}
-                    onChange={handleInputChange}
-                    className={`block w-full pl-10 pr-3 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 ${
-                      errors.department ? 'border-red-300' : 'border-gray-300'
-                    }`}
-                    placeholder="Enter your department"
-                  />
+                <div className="px-3 py-2 bg-blue-50 border border-blue-200 rounded-md">
+                  <span className="text-blue-900 font-medium">
+                    {user.department || 'No department assigned'}
+                  </span>
+                  <span className="text-blue-600 text-sm ml-2">(Cannot be changed)</span>
                 </div>
-                {errors.department && (
-                  <p className="mt-1 text-sm text-red-600">{errors.department}</p>
-                )}
               </div>
             )}
 
@@ -268,7 +247,9 @@ const Profile: React.FC = () => {
                 Role
               </label>
               <div className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-md">
-                <span className="text-gray-900 capitalize">{user.role}</span>
+                <span className="text-gray-900 capitalize">
+                  {user.role === 'student' || user.role === 'faculty' ? 'user' : user.role}
+                </span>
                 <span className="text-gray-500 text-sm ml-2">(Cannot be changed)</span>
               </div>
             </div>

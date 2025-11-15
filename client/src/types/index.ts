@@ -3,7 +3,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  role: 'student' | 'faculty' | 'authority';
+  role: 'user' | 'authority' | 'student' | 'faculty'; // student/faculty for backward compatibility
   department: string;
   categories?: string[];
   avatar?: string;
@@ -64,7 +64,7 @@ export interface RegisterData {
   name: string;
   email: string;
   password: string;
-  role: 'student' | 'faculty' | 'authority';
+  role: 'user' | 'authority';
   department: string;
 }
 
@@ -78,5 +78,5 @@ export interface CreateIssueData {
 export interface ProfileData {
   name: string;
   email: string;
-  department: string;
+  department?: string; // Optional since it's read-only and not part of update form
 }

@@ -5,7 +5,7 @@ interface SuccessModalProps {
   isOpen: boolean;
   title: string;
   message: string;
-  role: 'student' | 'faculty' | 'authority';
+  role: 'user' | 'authority';
   onClose: () => void;
   redirectTo?: string;
   autoRedirectSeconds?: number;
@@ -50,14 +50,9 @@ const SuccessModal: React.FC<SuccessModalProps> = ({
   if (!isOpen) return null;
 
   const roleInfo = {
-    student: {
+    user: {
       icon: '🎓',
       color: 'blue',
-      description: 'You can now report issues and track their status'
-    },
-    faculty: {
-      icon: '👨‍🏫',
-      color: 'green',
       description: 'You can now report issues and track their status'
     },
     authority: {

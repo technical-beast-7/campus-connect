@@ -249,14 +249,6 @@ const LoginPage: React.FC = () => {
           </form>
         </div>
 
-        {/* Demo Credentials */}
-        <div className="card bg-blue-50 border-blue-200">
-          <h3 className="text-sm font-medium text-blue-900 mb-2">Demo Credentials</h3>
-          <div className="text-xs text-blue-800 space-y-1">
-            <p><strong>Student:</strong> student@campus.edu / password123</p>
-            <p><strong>Authority:</strong> authority@campus.edu / password123</p>
-          </div>
-        </div>
       </div>
 
       {/* Error Modal */}

@@ -18,10 +18,10 @@ export const sendOTP = async (req, res, next) => {
       throw new Error('Please provide all required fields');
     }
 
-    // Validate department for students/faculty
-    if ((role === 'student' || role === 'faculty') && !department) {
+    // Validate department for users
+    if (role === 'user' && !department) {
       res.status(400);
-      throw new Error('Department is required for students and faculty');
+      throw new Error('Department is required for users');
     }
 
     // Validate categories for authorities
@@ -179,10 +179,10 @@ export const register = async (req, res, next) => {
       throw new Error('Please provide all required fields');
     }
 
-    // Validate department for students/faculty
-    if ((role === 'student' || role === 'faculty') && !department) {
+    // Validate department for users
+    if (role === 'user' && !department) {
       res.status(400);
-      throw new Error('Department is required for students and faculty');
+      throw new Error('Department is required for users');
     }
 
     // Create user
@@ -296,11 +296,11 @@ export const updateProfile = async (req, res, next) => {
       throw new Error('User not found');
     }
 
-    // Update fields if provided
+    // Update fields if provided (department and categories cannot be changed)
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
-    user.department = req.body.department || user.department;
     user.avatar = req.body.avatar || user.avatar;
+    // Note: department and categories are read-only and cannot be updated
 
     // Update password if provided
     if (req.body.password) {
