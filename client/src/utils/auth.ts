@@ -1,0 +1,135 @@
+// Authentication token utilities
+import { getFromStorage, setToStorage, removeFromStorage } from './helpers';
+import type { User } from '@/types';
+
+const AUTH_TOKEN_KEY = 'authToken';
+const USER_DATA_KEY = 'userData';
+
+// Token storage utilities
+export const tokenStorage = {
+  get: (): string | null => {
+    try {
+      // Get token as plain string, not JSON
+      return localStorage.getItem(AUTH_TOKEN_KEY);
+    } catch (error) {
+      console.error('Error getting token from localStorage:', error);
+      return null;
+    }
+  },
+
+  set: (token: string): void => {
+    try {
+      // Store token as plain string, not JSON
+      localStorage.setItem(AUTH_TOKEN_KEY, token);
+      console.log('Token stored directly in localStorage');
+    } catch (error) {
+      console.error('Error setting token to localStorage:', error);
+    }
+  },
+
+  remove: (): void => {
+    removeFromStorage(AUTH_TOKEN_KEY);
+  },
+
+  exists: (): boolean => {
+    return !!tokenStorage.get();
+  }
+};
+
+// User data storage utilities
+export const userStorage = {
+  get: (): User | null => {
+    return getFromStorage<User>(USER_DATA_KEY);
+  },
+
+  set: (user: User): void => {
+    setToStorage(USER_DATA_KEY, user);
+  },
+
+  remove: (): void => {
+    removeFromStorage(USER_DATA_KEY);
+  }
+};
+
+// Session utilities
+export const sessionUtils = {
+  // Save both token and user data
+  saveSession: (token: string, user: User): void => {
+    console.log('sessionUtils.saveSession - Saving token and user:', { token: token.substring(0, 20) + '...', user });
+    tokenStorage.set(token);
+    userStorage.set(user);
+    console.log('sessionUtils.saveSession - Saved. Verifying:', {
+      tokenInStorage: localStorage.getItem('authToken')?.substring(0, 20) + '...',
+      userInStorage: localStorage.getItem('userData')
+    });
+  },
+
+  // Clear all session data
+  clearSession: (): void => {
+    tokenStorage.remove();
+    userStorage.remove();
+  },
+
+  // Check if session exists
+  hasValidSession: (): boolean => {
+    return tokenStorage.exists() && !!userStorage.get();
+  },
+
+  // Get stored session data
+  getStoredSession: (): { token: string; user: User } | null => {
+    console.log('getStoredSession - Raw localStorage authToken:', localStorage.getItem('authToken'));
+    console.log('getStoredSession - Raw localStorage userData:', localStorage.getItem('userData'));
+    
+    const token = tokenStorage.get();
+    const user = userStorage.get();
+    
+    console.log('getStoredSession - Parsed token:', token ? token.substring(0, 20) + '...' : null);
+    console.log('getStoredSession - Parsed user:', user);
+    
+    if (token && user) {
+      return { token, user };
+    }
+    
+    return null;
+  }
+};
+
+// JWT token utilities (for future use when backend is ready)
+export const jwtUtils = {
+  // Decode JWT payload (without verification - for client-side use only)
+  decode: (token: string): any => {
+    try {
+      const payload = token.split('.')[1];
+      const decoded = atob(payload);
+      return JSON.parse(decoded);
+    } catch (error) {
+      console.error('Error decoding JWT:', error);
+      return null;
+    }
+  },
+
+  // Check if token is expired
+  isExpired: (token: string): boolean => {
+    try {
+      const payload = jwtUtils.decode(token);
+      if (!payload || !payload.exp) return true;
+      
+      const currentTime = Math.floor(Date.now() / 1000);
+      return payload.exp < currentTime;
+    } catch (error) {
+      return true;
+    }
+  },
+
+  // Get token expiration time
+  getExpirationTime: (token: string): Date | null => {
+    try {
+      const payload = jwtUtils.decode(token);
+      if (!payload || !payload.exp) return null;
+      
+      return new Date(payload.exp * 1000);
+    } catch (error) {
+      return null;
+    }
+  }
+};
